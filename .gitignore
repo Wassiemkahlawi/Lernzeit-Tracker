@@ -1,0 +1,6 @@
+# Verhindert versehentliches Hochladen sensibler Daten
+mycreds.txt
+client_secrets.json
+*.log
+.env
+__pycache__/
