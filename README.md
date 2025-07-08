@@ -38,4 +38,6 @@ pip install -r requirements.txt
 
 # App starten
 streamlit run tracker.py
+oder
+python -m streamlit run tracker.py
 
