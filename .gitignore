@@ -4,3 +4,9 @@ client_secrets.json
 *.log
 .env
 __pycache__/
+"bfg.jar" 
+daten.csv
+ziele.csv
+backup_default.txt
+backup_log.txt
+*.bak
