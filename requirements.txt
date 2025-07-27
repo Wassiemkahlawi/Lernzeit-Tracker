@@ -3,3 +3,5 @@ Pandas
 openpyxl 
 plotly
 pydrive
+XlsxWriter>=3.1.2
+pydrive2
