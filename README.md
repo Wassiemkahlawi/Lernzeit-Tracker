@@ -27,17 +27,17 @@ Ein intuitives Tool zur Erfassung, Verwaltung und Analyse von Lernzeiten – ide
 ## ▶️ Starten
 
 ```bash
-# Repository klonen
+# 📦 Repository klonen
 git clone https://github.com/Wassiemkahlawi/Lernzeit-Tracker.git
 
-# In das Projektverzeichnis wechseln
+# 📁 In das Projektverzeichnis wechseln
 cd Lernzeit-Tracker
 
-# Abhängigkeiten installieren
+# 🔧 Abhängigkeiten installieren
 pip install -r requirements.txt
 
-# App starten
-streamlit run tracker.py
-# oder
-python -m streamlit run tracker.py
+# 🚀 App starten
+streamlit run Lernzeit_tracker/tracker_app.py
 
+# oder
+python -m streamlit run Lernzeit_tracker/tracker_app.py
