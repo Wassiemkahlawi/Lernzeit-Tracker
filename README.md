@@ -10,7 +10,6 @@ Ein personalisierter Lernzeit-Tracker mit CSV-Datenbank, Zielsystem, Heatmap, Cl
 - 🎯 Tagesziele setzen und auswerten
 - 📊 Wöchentliche Statistiken mit Plotly
 - 🔥 Heatmap der Lernaktivität
-- ☁️ Cloud-Backups in Google Drive (auch Shared Drives)
 - 🧮 Export & Filterung (z. B. nur Mathe im Juni)
 - 🛡️ Automatische Sicherungen (lokal & Drive)
 - 🔁 Responsive UI für Desktop & Mobil
@@ -23,7 +22,6 @@ Ein personalisierter Lernzeit-Tracker mit CSV-Datenbank, Zielsystem, Heatmap, Cl
 Lernzeit-Tracker/
 ├── Lernzeit_tracker/
 │   ├── tracker_app.py          # Hauptanwendung
-│   ├── backup_manager.py       # Google Drive Integration
 │   ├── data_manager.py         # Datenverwaltung (CSV)
 │   ├── ziel_manager.py         # Zielsystem & Fortschritt
 │   ├── export_manager.py       # Filter- & Export-Tools
@@ -33,6 +31,24 @@ Lernzeit-Tracker/
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+
+## Bilder vom Projekt
+
+<img width="1874" height="920" alt="image" src="https://github.com/user-attachments/assets/53dd2aba-5ec7-4bbe-b7ec-224178da510d" />
+
+
+<img width="1876" height="920" alt="image" src="https://github.com/user-attachments/assets/d83fd14a-ac4b-4b54-b268-bce69d303604" />
+
+# Anmerkung
+
+Google Drive Backup (archiviert)
+
+Dieses Backup-System wurde bis März 2026 verwendet.
+Es wurde entfernt, da das Projekt nicht mehr Google Workspace
+bzw. Google Drive Shared Drives verwendet.
+
+Die Dateien dienen nur als Referenz und werden nicht mehr von
+der Anwendung genutzt.
 
 # 📦 Repository klonen
 git clone https://github.com/Wassiemkahlawi/Lernzeit-Tracker.git
