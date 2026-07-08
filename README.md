@@ -35,10 +35,9 @@ Lernzeit-Tracker/
 ## Bilder vom Projekt
 
 
-<img width="1876" height="917" alt="image" src="https://github.com/user-attachments/assets/0cf578fe-da80-4ea7-a754-2501910f1dbf" />
+<img width="1876" height="917" alt="Screenshot 2026-07-08 104349" src="https://github.com/user-attachments/assets/ff5b2386-398d-428f-ba47-fdf408c5582f" />
 
-
-<img width="1875" height="918" alt="image" src="https://github.com/user-attachments/assets/91bef235-bb24-49be-9c4f-e6827068fa3c" />
+<img width="1875" height="918" alt="Screenshot 2026-07-08 104427" src="https://github.com/user-attachments/assets/67e27df3-5949-4891-aaff-fdc253230dbd" />
 
 
 # Anmerkung
