@@ -1,7 +1,5 @@
-streamlit 
-Pandas
-openpyxl 
+streamlit
+pandas
+openpyxl
 plotly
-pydrive
-XlsxWriter>=3.1.2
-pydrive2
+xlsxwriter>=3.1.2

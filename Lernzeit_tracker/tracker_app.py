@@ -7,7 +7,6 @@ import uuid
 
 from data_manager import LernzeitDaten
 from ziel_manager import ZielVerwaltung
-from backup_manager import BackupManager
 from export_manager import ExportManager
 
 # ------------- App-Setup -------------
@@ -20,7 +19,6 @@ PAGES = {
     "📅 Wochenauswertung": "weekly",
     "🧪 Heatmap": "heatmap",
     "🔎 Filter & Export": "export",
-    "☁️ Cloud-Backups": "backups",
     "📆 Zielverlauf": "targets",
     "🗑️ Datenbank löschen": "reset",
     "⚙️ Einstellungen": "settings",
@@ -29,12 +27,10 @@ PAGES = {
 # ------------- Session Defaults -------------
 if "page" not in st.session_state:
     st.session_state.page = "📊 Übersicht"
-if "auto_backup_enabled" not in st.session_state:
-    st.session_state.auto_backup_enabled = True
 if "eintrag_gespeichert" not in st.session_state:
     st.session_state.eintrag_gespeichert = False
 
-# Globale (optionale) Filter (werden in allen Seiten wiederverwendet, wenn du willst)
+
 if "global_fach" not in st.session_state:
     st.session_state.global_fach = "Alle"
 if "global_von" not in st.session_state:
@@ -47,7 +43,7 @@ data = LernzeitDaten()
 ziel_mgr = ZielVerwaltung()
 df = data.df.copy()
 
-# Eine Hilfsfunktion: sichere Datums-Spalte
+
 def ensure_datetime(df, col="Datum"):
     if col in df.columns:
         df[col] = pd.to_datetime(df[col], errors="coerce")
@@ -56,7 +52,7 @@ def ensure_datetime(df, col="Datum"):
 
 df = ensure_datetime(df)
 
-# ------------- Kleine UI-Helfer -------------
+
 def kpi(label, value, help_text=None, delta=None):
     st.metric(label, value, delta=delta, help=help_text)
 
@@ -139,7 +135,7 @@ def page_add():
         datum = st.date_input("📅 Datum", value=date.today())
     notiz = st.text_area("📝 Notiz (optional)")
 
-    # Quick Buttons
+
     qb = st.radio("Schnellwahl", [15,25,50,90, "Custom"], horizontal=True, index=1)
     if qb != "Custom":
         dauer = int(qb)
@@ -168,7 +164,7 @@ def page_goal():
     fortschritt = 0 if ziel_minuten == 0 else min(1, gesamt / ziel_minuten)
     st.progress(int(fortschritt * 100), text=f"{int(gesamt)} / {ziel_minuten} Minuten")
 
-    # Hinweis
+
     if fortschritt >= 1:
         st.success("✅ Ziel erreicht – stark!")
     elif fortschritt >= 0.5:
@@ -184,7 +180,7 @@ def page_heatmap():
     if df.empty:
         return empty_state("Keine Daten für Heatmap vorhanden.", "➕ Eintrag hinzufügen", lambda: set_page("➕ Eintrag hinzufügen"))
 
-    dff = apply_global_filter(df)  # optional – kannst du auch weglassen
+    dff = apply_global_filter(df)
     if dff.empty:
         return empty_state("Im gewählten Zeitraum gibt es keine Daten.")
 
@@ -221,43 +217,6 @@ def page_export():
     st.download_button("⬇️ Export als Excel", data=buffer, file_name=name,
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-def page_backups():
-    st.subheader("☁️ Cloud-Backups")
-    backup = BackupManager()
-
-    if not backup.folder_id:
-        st.error("❌ Kein Zugriff auf Drive-Ordner. Bitte Zugang oder Ordner-ID prüfen.")
-        return
-
-    # Status
-    st.caption(f"Drive-Ordner-ID: `{backup.folder_id}`")
-    if st.session_state.auto_backup_enabled and not backup.ist_heute_backup_durchgefuehrt():
-        uploaded = backup.upload(data.pfad, file_name=f"AutoBackup_{datetime.now().strftime('%Y-%m-%d')}.csv")
-        if uploaded:
-            backup.log_schreiben()
-            st.success("🔄 Auto-Backup erfolgreich durchgeführt.")
-        else:
-            st.warning("⚠️ Auto-Backup fehlgeschlagen.")
-
-    if st.button("📤 Manuelles Backup jetzt hochladen"):
-        ts = datetime.now().strftime("%Y-%m-%d-%H-%M")
-        uploaded = backup.upload(data.pfad, file_name=f"Lernzeit_backup_{ts}.csv")
-        if uploaded:
-            st.success(f"✅ Hochgeladen als: {uploaded}")
-        else:
-            st.warning("❌ Fehler beim Hochladen.")
-
-    st.divider()
-    st.subheader("📄 Deine letzten Backups")
-    df_backups = backup.liste_backups()
-    if df_backups.empty:
-        st.info("Noch keine Backups im Drive-Ordner gefunden.")
-    else:
-        for _, row in df_backups.iterrows():
-            col1, col2 = st.columns([3,1])
-            col1.write(f"📁 **{row['Name']}** – 📅 {row['Datum']}")
-            col2.markdown(f"[⬇️ Download]({row['Download']})", unsafe_allow_html=True)
-
 def page_weekly():
     st.subheader("📅 Wochenauswertung")
     if df.empty:
@@ -280,7 +239,7 @@ def page_targets():
 
 def page_settings():
     st.subheader("⚙️ Einstellungen")
-    st.session_state.auto_backup_enabled = st.checkbox("🔄 Auto-Backup aktivieren", value=st.session_state.auto_backup_enabled)
+    st.session_state.auto_backup_enabled = st.checkbox(" Auto-Backup aktivieren", value=st.session_state)
 
 def page_reset():
     st.subheader("🗑️ Datenbank löschen")
@@ -305,7 +264,6 @@ with st.sidebar:
     choice = st.radio("Seite wählen:", list(PAGES.keys()), index=list(PAGES.keys()).index(st.session_state.page))
     if choice != st.session_state.page:
         set_page(choice)
-    # Optional: globaler Filter
     global_filter_ui(df)
 
 # ------------- Router -------------
@@ -316,7 +274,6 @@ page_map = {
     "📅 Wochenauswertung": page_weekly,
     "🧪 Heatmap": page_heatmap,
     "🔎 Filter & Export": page_export,
-    "☁️ Cloud-Backups": page_backups,
     "📆 Zielverlauf": page_targets,
     "🗑️ Datenbank löschen": page_reset,
     "⚙️ Einstellungen": page_settings,
